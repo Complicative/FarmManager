@@ -1,7 +1,7 @@
 ## Title: Farm Manager
 ## Description:  Tracks items farmed and value
 ## Author: dirtdart (@dirtdart) /Updated by @Complicative
-## Version: 1.2.0
+## Version: 1.2.1
 ## APIVersion: 101036
 ## SavedVariables: FarmManagerSavedVars FarmManagerData
 ##

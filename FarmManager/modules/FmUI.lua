@@ -5,8 +5,23 @@ FmUI = {
 	mini = false
 }
 
+local mainFragment = ZO_SimpleSceneFragment:New(FarmManagerWindow)
+local statsFragment = ZO_SimpleSceneFragment:New(StatsControl)
+local exportFragment = ZO_SimpleSceneFragment:New(ExportControl)
+
 function FmUI.ToGold(amount)
 	return ZO_CurrencyControl_FormatCurrencyAndAppendIcon(amount, false, CURT_MONEY, false)
+end
+
+function FmUI.SetHidden(fragment, hidden)
+	if hidden then
+		HUD_SCENE:RemoveFragment(fragment)
+		HUD_UI_SCENE:RemoveFragment(fragment)
+	else
+		HUD_SCENE:AddFragment(fragment)
+		HUD_UI_SCENE:AddFragment(fragment)
+	end
+
 end
 
 function FmUI.Init()
@@ -37,7 +52,7 @@ function FmUI.Stop()
 end
 
 function FmUI.WindowToggle()
-	FmUI.mainWindow:SetHidden(not FmUI.mainWindow:IsHidden())
+	FmUI.SetHidden(mainFragment, not FmUI.mainWindow:IsHidden())
 end
 
 function FmUI.UpdateDataRow(control, data)
@@ -158,10 +173,10 @@ end
 
 function FmUI.ToggleExportWindow()
 	if ExportControl:IsHidden() then
-		ExportControl:SetHidden(false)
+		FmUI.SetHidden(exportFragment, false)
 		FmUI.PopulateExportWindow()
 	else
-		ExportControl:SetHidden(true)
+		FmUI.SetHidden(exportFragment, true)
 	end
 end
 
@@ -195,18 +210,21 @@ function FmUI.ToggleSizeChange()
 end
 
 function FmUI.PopulateStatsWindow()
+
+	FmStats.Init()
+
 	local nodesFarmed = FmStats.GetNodesFarmed()
-	local blacksmithingNodesFarmed = FmStats.GetBlacksmithingNodesFarmed()
-	local blacksmithingOreFarmed = FmStats.GetBlacksmithingOreFarmed()
-	local clothingNodesFarmed = FmStats.GetClothingNodesFarmed()
-	local clothingOreFarmed = FmStats.GetClothingOreFarmed()
-	local woodworkingNodesFarmed = FmStats.GetWoodworkingNodesFarmed()
-	local woodworkingOreFarmed = FmStats.GetWoodworkingOreFarmed()
-	local cyrodilNodesFarmed = FmStats.GetCyrodiilNodesFarmed()
-	local dewFarmed = FmStats.GetDewFarmed()
-	local craglornNodesFarmed = FmStats.GetCraglornNodesFarmed()
-	local potentNirncruxFarmed = FmStats.GetPotentNirncruxFarmed()
-	local fortifiedNirncruxFarmed = FmStats.GetFortifiedNirncruxFarmed()
+	local blacksmithingNodesFarmed, blacksmithingOreFarmed = FmStats.GetBlacksmithing()
+	local avgBlacksmithing = math.floor((blacksmithingOreFarmed / blacksmithingNodesFarmed) * 100) / 100
+	local clothingNodesFarmed, clothingOreFarmed = FmStats.GetClothing()
+	local avgClothing = math.floor((clothingOreFarmed / clothingNodesFarmed) * 100) / 100
+	local woodworkingNodesFarmed, woodworkingOreFarmed = FmStats.GetWoodworking()
+	local avgWoodworking = math.floor((woodworkingOreFarmed / woodworkingNodesFarmed) * 100) / 100
+	local cyrodiilNodesFarmed, dewFarmed = FmStats.GetCyrodiil()
+	local avgCyrodiil = math.floor((cyrodiilNodesFarmed / dewFarmed) * 100) / 100
+	local craglornNodesFarmed, potentNirncruxFarmed, fortifiedNirncruxFarmed = FmStats.GetCraglorn()
+	local avgCraglornPotent = math.floor((craglornNodesFarmed / potentNirncruxFarmed) * 100) / 100
+	local avgCraglornFortified = math.floor((craglornNodesFarmed / fortifiedNirncruxFarmed) * 100) / 100
 
 	local s = ""
 	s = s .. "Nodes Farmed: " .. ZO_CommaDelimitNumber(nodesFarmed) .. "\n"
@@ -215,26 +233,26 @@ function FmUI.PopulateStatsWindow()
 	s = s .. "Blacksmithing Ore Farmed: " .. ZO_CommaDelimitNumber(blacksmithingOreFarmed) .. "\n"
 	s = s ..
 		"   Average Ore per Node: " ..
-		ZO_CommaDelimitNumber(math.floor((blacksmithingOreFarmed / blacksmithingNodesFarmed) * 100) / 100) ..
+		ZO_CommaDelimitNumber(avgBlacksmithing) ..
 		"\n"
 	s = s .. "..................................\n"
 	s = s .. "Clothing Nodes Farmed: " .. ZO_CommaDelimitNumber(clothingNodesFarmed) .. "\n"
 	s = s .. "Clothing Ore Farmed: " .. ZO_CommaDelimitNumber(clothingOreFarmed) .. "\n"
 	s = s ..
 		"   Average Ore per Node: " ..
-		ZO_CommaDelimitNumber(math.floor((clothingOreFarmed / clothingNodesFarmed) * 100) / 100) .. "\n"
+		ZO_CommaDelimitNumber(avgClothing) .. "\n"
 	s = s .. "..................................\n"
 	s = s .. "Woodworking Nodes Farmed: " .. ZO_CommaDelimitNumber(woodworkingNodesFarmed) .. "\n"
 	s = s .. "Woodworking Ore Farmed: " .. ZO_CommaDelimitNumber(woodworkingOreFarmed) .. "\n"
 	s = s ..
 		"   Average Ore per Node: " ..
-		ZO_CommaDelimitNumber(math.floor((woodworkingOreFarmed / woodworkingNodesFarmed) * 100) / 100) .. "\n"
+		ZO_CommaDelimitNumber(avgWoodworking) .. "\n"
 	s = s .. "..................................\n"
-	s = s .. "Cyrodiil Nodes Farmed: " .. ZO_CommaDelimitNumber(cyrodilNodesFarmed) .. "\n"
+	s = s .. "Cyrodiil Nodes Farmed: " .. ZO_CommaDelimitNumber(cyrodiilNodesFarmed) .. "\n"
 	s = s ..
 		"|H0:item:171433:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Farmed: " .. ZO_CommaDelimitNumber(dewFarmed) .. "\n"
 	s = s ..
-		"   Average Node per Dew: " .. ZO_CommaDelimitNumber(math.floor((cyrodilNodesFarmed / dewFarmed) * 100) / 100) .. "\n"
+		"   Average Node per Dew: " .. ZO_CommaDelimitNumber(avgCyrodiil) .. "\n"
 	s = s .. "..................................\n"
 	s = s .. "Craglorn Nodes Farmed: " .. ZO_CommaDelimitNumber(craglornNodesFarmed) .. "\n"
 	s = s ..
@@ -242,22 +260,22 @@ function FmUI.PopulateStatsWindow()
 		ZO_CommaDelimitNumber(potentNirncruxFarmed) .. "\n"
 	s = s ..
 		"   Average Node per Crux: " ..
-		ZO_CommaDelimitNumber(math.floor((craglornNodesFarmed / potentNirncruxFarmed) * 100) / 100) .. "\n"
+		ZO_CommaDelimitNumber(avgCraglornPotent) .. "\n"
 	s = s ..
 		"|H0:item:56862:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Farmed: " ..
 		ZO_CommaDelimitNumber(fortifiedNirncruxFarmed) .. "\n"
 	s = s ..
 		"   Average Node per Crux: " ..
-		ZO_CommaDelimitNumber(math.floor((craglornNodesFarmed / fortifiedNirncruxFarmed) * 100) / 100) .. "\n"
+		ZO_CommaDelimitNumber(avgCraglornFortified) .. "\n"
 	s = s .. "..................................\n"
 	StatsControlLabel:SetText(s)
 end
 
 function FmUI.ToggleStatsWindow()
 	if StatsControl:IsHidden() then
-		StatsControl:SetHidden(false)
+		FmUI.SetHidden(statsFragment, false)
 		FmUI.PopulateStatsWindow()
 	else
-		StatsControl:SetHidden(true)
+		FmUI.SetHidden(statsFragment, true)
 	end
 end

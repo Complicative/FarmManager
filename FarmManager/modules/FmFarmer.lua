@@ -38,7 +38,8 @@ function FmFarmer.Add(itemLink, amount)
     item.amount = item.amount + amount --updates amount
     item.totalValue = item.totalValue + (item.value * amount) --updates item total value
     FmFarmer.totalValue = FmFarmer.totalValue + (item.value * amount) --updates total farm value
-    if FarmManagerData[FarmManager.worldName][#FarmManagerData[FarmManager.worldName]].timeStamp ~= GetTimeStamp() then
+    if #FarmManagerData[FarmManager.worldName] > 1 and
+        FarmManagerData[FarmManager.worldName][#FarmManagerData[FarmManager.worldName]].timeStamp ~= GetTimeStamp() then
         FmFarmer.nodesFarmed = FmFarmer.nodesFarmed + 1
     end
     return item

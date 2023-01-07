@@ -1,4 +1,33 @@
 FmStats = {}
+
+function FmStats.Init()
+
+    -- Delete old data
+    for k, _ in pairs(FarmManagerData[FarmManager.worldName]) do
+        if type(k) ~= "number" then FarmManagerData[FarmManager.worldName][k] = nil end
+    end
+end
+
+function FmStats.GetBlacksmithing()
+    return FmStats.GetBlacksmithingNodesFarmed(), FmStats.GetBlacksmithingOreFarmed()
+end
+
+function FmStats.GetClothing()
+    return FmStats.GetClothingNodesFarmed(), FmStats.GetClothingOreFarmed()
+end
+
+function FmStats.GetWoodworking()
+    return FmStats.GetWoodworkingNodesFarmed(), FmStats.GetWoodworkingOreFarmed()
+end
+
+function FmStats.GetCyrodiil()
+    return FmStats.GetCyrodiilNodesFarmed(), FmStats.GetDewFarmed()
+end
+
+function FmStats.GetCraglorn()
+    return FmStats.GetCraglornNodesFarmed(), FmStats.GetPotentNirncruxFarmed(), FmStats.GetFortifiedNirncruxFarmed()
+end
+
 function FmStats.GetNodesFarmed()
     local nodes = 0
     for k, v in ipairs(FarmManagerData[FarmManager.worldName]) do
