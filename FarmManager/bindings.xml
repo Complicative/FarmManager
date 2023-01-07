@@ -1,0 +1,15 @@
+<Bindings>
+    <Layer name="SI_KEYBINDINGS_LAYER_GENERAL">
+        <Category name="Farm Manager">
+            <Action name="FARM_MANAGER_WINDOW_TOGGLE">
+                <Down>FmUI.WindowToggle()</Down>
+            </Action>
+            <Action name="FARM_MANAGER_START_STOP_TOGGLE">
+                <Down>FarmManager.StartStop()</Down>
+            </Action>
+            <Action name="FARM_MANAGER_RESET">
+                <Down>FarmManager.Reset()</Down>
+            </Action>
+        </Category>
+    </Layer>
+</Bindings>

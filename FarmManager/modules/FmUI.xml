@@ -1,0 +1,392 @@
+<GuiXml>
+    <Controls>
+        <Control name="FarmManagerGUIItemListItemTemplate" mouseEnabled="true" virtual="true">
+            <Dimensions y="30" />
+            <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
+            <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
+
+            <Controls>
+                <Texture name="$(parent)Icon" alpha="1">
+                    <Dimensions x="24" y="24" />
+                    <Anchor point="LEFT" offsetX="0" offsetY="0" />
+                    <TextureCoords left="0" right="1" top="0" bottom="1" />
+                </Texture>
+                <Label name="$(parent)NameLabel" font="ZoFontGame" color="CFDCBD"
+                    wrapMode="ELLIPSIS" verticalAlignment="CENTER" text="_NAME_">
+                    <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT"
+                        offsetX="30"
+                        offsetY="0" />
+                </Label>
+                <Label name="$(parent)AmountLabel" font="ZoFontGame" color="CFDCBD"
+                    wrapMode="ELLIPSIS" verticalAlignment="CENTER" text="D/H">
+                    <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT"
+                        offsetX="-240" offsetY="0" />
+                </Label>
+                <Label name="$(parent)ValueLabel" font="ZoFontGame" color="CFDCBD"
+                    wrapMode="ELLIPSIS" verticalAlignment="CENTER" text="D/H">
+                    <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT"
+                        offsetX="-120"
+                        offsetY="0" />
+                </Label>
+                <Label name="$(parent)TotalValueLabel" font="ZoFontGame" color="CFDCBD"
+                    wrapMode="ELLIPSIS" verticalAlignment="CENTER" text="D/H">
+                    <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT"
+                        offsetX="-5"
+                        offsetY="0" />
+                </Label>
+            </Controls>
+        </Control>
+        <TopLevelControl name="FarmManagerWindow" mouseEnabled="true" movable="true"
+            resizeHandleSize="8" hidden="true">
+            <Dimensions x="600" y="700" />
+            <DimensionConstraints minX="550" minY="400" />
+            <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT"
+                offsetX="40" offsetY="40" />
+            <Controls>
+                <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" alpha="0.8" />
+
+                <Label name="$(parent)TitleLabel" font="$(ANTIQUE_FONT)|32|soft-shadow-thick"
+                    horizontalAlignment="CENTER" verticalAlignment="CENTER" text="Farm Manager">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" offsetX="10" offsetY="10" />
+                    <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"
+                        offsetX="-10" offsetY="10" />
+                </Label>
+                <Button name="$(parent)ButtonClose" inherits="ZO_ButtonBehaviorClickSound">
+                    <Dimensions x="40" y="40" />
+                    <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"
+                        offsetX="15" />
+                    <Textures normal="EsoUI/Art/Buttons/closebutton_up.dds"
+                        pressed="EsoUI/Art/Buttons/closebutton_down.dds"
+                        mouseOver="EsoUI/Art/Buttons/closebutton_mouseover.dds"
+                        disabled="EsoUI/Art/Buttons/closebutton_disabled.dds" />
+                    <OnClicked>
+                        FmUI.WindowToggle()
+                    </OnClicked>
+                </Button>
+                <Button name="$(parent)ButtonChangeSize" inherits="ZO_ButtonBehaviorClickSound">
+                    <Dimensions x="40" y="40" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)"
+                        relativePoint="BOTTOMRIGHT"
+                        offsetX="-10" offsetY="-10" />
+                    <Textures normal="esoui/art/characterwindow/swap_button_up.dds"
+                        pressed="esoui/art/characterwindow/swap_button_down.dds"
+                        mouseOver="esoui/art/characterwindow/swap_button_over.dds"
+                        disabled="esoui/art/characterwindow/swap_button_disabled.dds" />
+                    <OnClicked>
+                        FmUI.ToggleSizeChange()
+                    </OnClicked>
+                </Button>
+
+                <Button name="$(parent)ButtonSortByName" mouseEnabled="true"
+                    inherits="ZO_DefaultButton">
+
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"
+                        offsetX="30"
+                        offsetY="90" />
+                    <Controls>
+                        <Label name="$(parent)ButtonSortByNameLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
+                            horizontalAlignment="CENTER" verticalAlignment="CENTER" text="Name">
+                            <AnchorFill />
+                        </Label>
+                    </Controls>
+                    <OnClicked> FmUI.SortBy("name")
+                    </OnClicked>
+                </Button>
+                <Button name="$(parent)ButtonSortByAmount" mouseEnabled="true"
+                    inherits="ZO_DefaultButton">
+                    <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"
+                        offsetX="-240"
+                        offsetY="90" />
+                    <Controls>
+                        <Label name="$(parent)ButtonSortByAmountLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
+                            horizontalAlignment="CENTER" verticalAlignment="CENTER"
+                            text="Amount">
+                            <AnchorFill />
+                        </Label>
+                    </Controls>
+                    <OnClicked> FmUI.SortBy("amount")
+                    </OnClicked>
+                </Button>
+                <Button name="$(parent)ButtonSortByValue" mouseEnabled="true"
+                    inherits="ZO_DefaultButton">
+                    <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"
+                        offsetX="-120"
+                        offsetY="90" />
+                    <Controls>
+                        <Label name="$(parent)ButtonSortByValueLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
+                            horizontalAlignment="CENTER" verticalAlignment="CENTER"
+                            text="Value">
+                            <AnchorFill />
+                        </Label>
+                    </Controls>
+                    <OnClicked> FmUI.SortBy("value")
+                    </OnClicked>
+                </Button>
+                <Button name="$(parent)ButtonSortByTotalValue" mouseEnabled="true"
+                    inherits="ZO_DefaultButton">
+                    <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"
+                        offsetX="-5"
+                        offsetY="90" />
+                    <Controls>
+                        <Label name="$(parent)ButtonSortByTotalValueLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
+                            horizontalAlignment="CENTER" verticalAlignment="CENTER"
+                            text="Total Value">
+                            <AnchorFill />
+                        </Label>
+                    </Controls>
+                    <OnClicked> FmUI.SortBy("totalValue")
+                    </OnClicked>
+                </Button>
+
+                <Control name="$(parent)DetailPanel">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"
+                        offsetX="10" offsetY="130" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT"
+                        offsetX="-10" offsetY="-250" />
+                    <Controls>
+                        <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" alpha="0.5" />
+                        <Control name="$(parent)FmItemList" inherits="ZO_ScrollList">
+                            <Anchor point="TOPLEFT" relativeTo="$(parent)" offsetX="0" offsetY="" />
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)"
+                                relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="0" />
+                        </Control>
+                    </Controls>
+                </Control>
+
+                <Control name="$(parent)StatsControl">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)DetailPanel"
+                        relativePoint="BOTTOMLEFT" offsetY="20" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT"
+                        offsetX="-30" />
+                    <Controls>
+
+                        <Label name="$(parent)GoldNameLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick"
+                            text="Total Farmed">
+                            <Anchor point="TOPLEFT" relativePoint="TOPLEFT"
+                                relativeTo="$(parent)" offsetX="0" offsetY="0" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="TOPLEFT"
+                                relativeTo="$(parent)" offsetX="160" offsetY="20" />
+                        </Label>
+                        <Label name="$(parent)GoldLabel" font="$(ANTIQUE_FONT)|16|soft-shadow-thick"
+                            text="" horizontalAlignment="RIGHT">
+                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT"
+                                relativeTo="$(parent)" offsetX="-160" offsetY="0" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT"
+                                relativeTo="$(parent)" offsetX="0" offsetY="20" />
+                        </Label>
+
+                        <Label name="$(parent)GoldPerMinuteNameLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick" text="Gold Per Minute">
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)GoldNameLabel" offsetX="0" offsetY="10" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)GoldNameLabel" offsetX="160" offsetY="30" />
+                        </Label>
+                        <Label name="$(parent)GoldPerMinuteLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick" text=""
+                            horizontalAlignment="RIGHT">
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)GoldLabel" offsetX="0" offsetY="10" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"
+                                relativeTo="$(parent)GoldLabel" offsetX="0" offsetY="30" />
+                        </Label>
+
+                        <Label name="$(parent)NodesNameLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick" text="Nodes">
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)GoldPerMinuteNameLabel" offsetX="0"
+                                offsetY="10" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)GoldPerMinuteNameLabel" offsetX="160"
+                                offsetY="30" />
+                        </Label>
+                        <Label name="$(parent)NodesLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick"
+                            text="" horizontalAlignment="RIGHT">
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)GoldPerMinuteLabel" offsetX="0" offsetY="10" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"
+                                relativeTo="$(parent)GoldPerMinuteLabel" offsetX="0" offsetY="30" />
+                        </Label>
+
+                        <Label name="$(parent)NodesPerMinuteNameLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick" text="Nodes Per Minute">
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)NodesNameLabel" offsetX="0" offsetY="10" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)NodesNameLabel" offsetX="160" offsetY="30" />
+                        </Label>
+                        <Label name="$(parent)NodesPerMinuteLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick"
+                            text="" horizontalAlignment="RIGHT">
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)NodesLabel" offsetX="0" offsetY="10" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"
+                                relativeTo="$(parent)NodesLabel" offsetX="0" offsetY="30" />
+                        </Label>
+
+                        <Label name="$(parent)TimeFarmedNameLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick" text="Time Farmed">
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)NodesPerMinuteNameLabel" offsetX="0"
+                                offsetY="10" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)NodesPerMinuteNameLabel" offsetX="160"
+                                offsetY="30" />
+                        </Label>
+                        <Label name="$(parent)TimeFarmedLabel"
+                            font="$(ANTIQUE_FONT)|16|soft-shadow-thick"
+                            text="" horizontalAlignment="RIGHT">
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)NodesPerMinuteLabel" offsetX="0" offsetY="10" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"
+                                relativeTo="$(parent)NodesPerMinuteLabel" offsetX="0" offsetY="30" />
+                        </Label>
+
+                        <Button name="$(parent)ButtonStartStop" mouseEnabled="true"
+                            inherits="ZO_DefaultButton">
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)TimeFarmedNameLabel" offsetX="0" offsetY="10" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)TimeFarmedNameLabel" offsetX="160" offsetY="40" />
+                            <Controls>
+                                <Label name="$(parent)ButtonStartStopLabel"
+                                    font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
+                                    horizontalAlignment="CENTER" verticalAlignment="CENTER"
+                                    text="Start Farming">
+                                    <AnchorFill />
+                                </Label>
+                            </Controls>
+                            <OnClicked>
+                                FarmManager.StartStop()
+                            </OnClicked>
+                        </Button>
+                        <Button name="$(parent)ButtonReset" mouseEnabled="true"
+                            inherits="ZO_DefaultButton">
+                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT"
+                                relativeTo="$(parent)ButtonStartStop" offsetX="10" offsetY="00" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"
+                                relativeTo="$(parent)ButtonStartStop" offsetX="170" offsetY="00" />
+                            <Controls>
+                                <Label name="$(parent)ButtonResetLabel"
+                                    font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
+                                    horizontalAlignment="CENTER" verticalAlignment="CENTER"
+                                    text="Reset">
+                                    <AnchorFill />
+                                </Label>
+                            </Controls>
+                            <OnClicked>
+                                FarmManager.Reset()
+                            </OnClicked>
+                        </Button>
+                        <Button name="$(parent)ButtonExport" mouseEnabled="true"
+                            inherits="ZO_DefaultButton">
+                            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT"
+                                relativeTo="$(parent)ButtonStartStop" offsetX="0" offsetY="10" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"
+                                relativeTo="$(parent)ButtonStartStop" offsetX="0" offsetY="40" />
+                            <Controls>
+                                <Label name="$(parent)ButtonExportLabel"
+                                    font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
+                                    horizontalAlignment="CENTER" verticalAlignment="CENTER"
+                                    text="Export">
+                                    <AnchorFill />
+                                </Label>
+                            </Controls>
+                            <OnClicked>
+                                FmUI.ToggleExportWindow()
+                            </OnClicked>
+                        </Button>
+                        <Button name="$(parent)ButtonStats" mouseEnabled="true"
+                            inherits="ZO_DefaultButton">
+                            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT"
+                                relativeTo="$(parent)ButtonExport" offsetX="10" offsetY="00" />
+                            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"
+                                relativeTo="$(parent)ButtonExport" offsetX="170" offsetY="00" />
+                            <Controls>
+                                <Label name="$(parent)ButtonStatsLabel"
+                                    font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
+                                    horizontalAlignment="CENTER" verticalAlignment="CENTER"
+                                    text="Statistics">
+                                    <AnchorFill />
+                                </Label>
+                            </Controls>
+                            <OnClicked>
+                                FmUI.ToggleStatsWindow()
+                            </OnClicked>
+                        </Button>
+                    </Controls>
+                </Control>
+
+            </Controls>
+        </TopLevelControl>
+
+        <TopLevelControl name="StatsControl" clampedToScreen="true" movable="true"
+            mouseEnabled="true" hidden="true" resizeHandleSize="10">
+            <Dimensions x="1000" y="800" />
+            <Anchor point="CENTER" relativeTo="GUI_ROOT" relativePoint="CENTER" />
+            <Controls>
+                <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop">
+                    <AnchorFill />
+                </Backdrop>
+                <Button name="$(parent)ButtonClose" inherits="ZO_ButtonBehaviorClickSound">
+                    <Dimensions x="40" y="40" />
+                    <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"
+                        offsetX="-10" offsetY="10" />
+                    <Textures normal="EsoUI/Art/Buttons/closebutton_up.dds"
+                        pressed="EsoUI/Art/Buttons/closebutton_down.dds"
+                        mouseOver="EsoUI/Art/Buttons/closebutton_mouseover.dds"
+                        disabled="EsoUI/Art/Buttons/closebutton_disabled.dds" />
+                    <OnClicked>
+                        StatsControl:SetHidden(not StatsControl:IsHidden())
+                    </OnClicked>
+                </Button>
+                <Label name="$(parent)Label"
+                    maxInputCharacters="16960" multiLine="true" text="Test" hidden="false"
+                    font="$(ANTIQUE_FONT)|18|soft-shadow-thick">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"
+                        offsetX="20" offsetY="20" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT"
+                        offsetX="-20" offsetY="-20" />
+                </Label>
+            </Controls>
+        </TopLevelControl>
+
+
+        <TopLevelControl name="ExportControl" clampedToScreen="true" movable="true"
+            mouseEnabled="true" hidden="true" resizeHandleSize="10">
+            <Dimensions x="1000" y="600" />
+            <Anchor point="CENTER" relativeTo="GUI_ROOT" relativePoint="CENTER" />
+            <Controls>
+                <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop">
+                    <AnchorFill />
+                </Backdrop>
+                <Button name="$(parent)ButtonClose" inherits="ZO_ButtonBehaviorClickSound">
+                    <Dimensions x="40" y="40" />
+                    <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"
+                        offsetX="-10" offsetY="10" />
+                    <Textures normal="EsoUI/Art/Buttons/closebutton_up.dds"
+                        pressed="EsoUI/Art/Buttons/closebutton_down.dds"
+                        mouseOver="EsoUI/Art/Buttons/closebutton_mouseover.dds"
+                        disabled="EsoUI/Art/Buttons/closebutton_disabled.dds" />
+                    <OnClicked>
+                        FmUI.ToggleExportWindow()
+                    </OnClicked>
+                </Button>
+                <EditBox name="$(parent)EditBox"
+                    inherits="ZO_DefaultEditMultiLine ZO_DefaultEditForDarkBackdrop"
+                    maxInputCharacters="16960">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"
+                        offsetX="50" offsetY="50" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT"
+                        offsetX="-50" offsetY="-50" />
+                </EditBox>
+            </Controls>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>
