@@ -343,7 +343,7 @@
                         mouseOver="EsoUI/Art/Buttons/closebutton_mouseover.dds"
                         disabled="EsoUI/Art/Buttons/closebutton_disabled.dds" />
                     <OnClicked>
-                        StatsControl:SetHidden(not StatsControl:IsHidden())
+                        FmUI.ToggleStatsWindow()
                     </OnClicked>
                 </Button>
                 <Label name="$(parent)Label"
