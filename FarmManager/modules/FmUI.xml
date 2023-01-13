@@ -77,12 +77,34 @@
                     </OnClicked>
                 </Button>
 
+
+                <Control name="$(parent)DetailPanel">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"
+                        offsetX="10" offsetY="130" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT"
+                        offsetX="-10" offsetY="-250" />
+                    <Controls>
+                        <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" alpha="0.5" />
+                        <Control name="$(parent)FmItemList" inherits="ZO_ScrollList">
+                            <Anchor point="TOPLEFT" relativeTo="$(parent)" offsetX="0" offsetY="" />
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)"
+                                relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="0" />
+                        </Control>
+                    </Controls>
+                </Control>
+
                 <Button name="$(parent)ButtonSortByName" mouseEnabled="true"
                     inherits="ZO_DefaultButton">
 
                     <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"
                         offsetX="30"
                         offsetY="90" />
+                    <Textures
+                        normal=""
+                        pressed=""
+                        mouseOver="EsoUI/Art/Buttons/ESO_buttonLarge_mouseOver.dds"
+                        disabled=""
+                    />
                     <Controls>
                         <Label name="$(parent)ButtonSortByNameLabel"
                             font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
@@ -98,6 +120,12 @@
                     <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"
                         offsetX="-240"
                         offsetY="90" />
+                    <Textures
+                        normal=""
+                        pressed=""
+                        mouseOver="EsoUI/Art/Buttons/ESO_buttonLarge_mouseOver.dds"
+                        disabled=""
+                    />
                     <Controls>
                         <Label name="$(parent)ButtonSortByAmountLabel"
                             font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
@@ -114,6 +142,12 @@
                     <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"
                         offsetX="-120"
                         offsetY="90" />
+                    <Textures
+                        normal=""
+                        pressed=""
+                        mouseOver="EsoUI/Art/Buttons/ESO_buttonLarge_mouseOver.dds"
+                        disabled=""
+                    />
                     <Controls>
                         <Label name="$(parent)ButtonSortByValueLabel"
                             font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
@@ -130,6 +164,12 @@
                     <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"
                         offsetX="-5"
                         offsetY="90" />
+                    <Textures
+                        normal=""
+                        pressed=""
+                        mouseOver="EsoUI/Art/Buttons/ESO_buttonLarge_mouseOver.dds"
+                        disabled=""
+                    />
                     <Controls>
                         <Label name="$(parent)ButtonSortByTotalValueLabel"
                             font="$(ANTIQUE_FONT)|16|soft-shadow-thick" color="CFDCBD"
@@ -141,21 +181,6 @@
                     <OnClicked> FmUI.SortBy("totalValue")
                     </OnClicked>
                 </Button>
-
-                <Control name="$(parent)DetailPanel">
-                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"
-                        offsetX="10" offsetY="130" />
-                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT"
-                        offsetX="-10" offsetY="-250" />
-                    <Controls>
-                        <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" alpha="0.5" />
-                        <Control name="$(parent)FmItemList" inherits="ZO_ScrollList">
-                            <Anchor point="TOPLEFT" relativeTo="$(parent)" offsetX="0" offsetY="" />
-                            <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)"
-                                relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="0" />
-                        </Control>
-                    </Controls>
-                </Control>
 
                 <Control name="$(parent)StatsControl">
                     <Anchor point="TOPLEFT" relativeTo="$(parent)DetailPanel"
@@ -326,9 +351,9 @@
             </Controls>
         </TopLevelControl>
 
-        <TopLevelControl name="StatsControl" clampedToScreen="true" movable="true"
+        <TopLevelControl name="FarmManagerStatsControl" clampedToScreen="true" movable="true"
             mouseEnabled="true" hidden="true" resizeHandleSize="10">
-            <Dimensions x="1000" y="800" />
+            <Dimensions x="1000" y="600" />
             <Anchor point="CENTER" relativeTo="GUI_ROOT" relativePoint="CENTER" />
             <Controls>
                 <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop">
@@ -346,10 +371,18 @@
                         FmUI.ToggleStatsWindow()
                     </OnClicked>
                 </Button>
-                <Label name="$(parent)Label"
-                    maxInputCharacters="16960" multiLine="true" text="Test" hidden="false"
+                <Label name="$(parent)Label1"
+                    maxInputCharacters="16960" multiLine="true" text="Label1" hidden="false"
                     font="$(ANTIQUE_FONT)|18|soft-shadow-thick">
                     <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"
+                        offsetX="20" offsetY="20" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOM"
+                        offsetX="-20" offsetY="-20" />
+                </Label>
+                <Label name="$(parent)Label2"
+                    maxInputCharacters="16960" multiLine="true" text="Label2" hidden="false"
+                    font="$(ANTIQUE_FONT)|18|soft-shadow-thick">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOP"
                         offsetX="20" offsetY="20" />
                     <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT"
                         offsetX="-20" offsetY="-20" />
@@ -358,7 +391,7 @@
         </TopLevelControl>
 
 
-        <TopLevelControl name="ExportControl" clampedToScreen="true" movable="true"
+        <TopLevelControl name="FarmManagerExportControl" clampedToScreen="true" movable="true"
             mouseEnabled="true" hidden="true" resizeHandleSize="10">
             <Dimensions x="1000" y="600" />
             <Anchor point="CENTER" relativeTo="GUI_ROOT" relativePoint="CENTER" />

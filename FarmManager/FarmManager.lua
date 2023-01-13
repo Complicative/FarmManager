@@ -1,12 +1,13 @@
 FarmManager = {
-	version = "1.2.1",
+	version = "1.3.1",
 	name = "FarmManager",
 	displayName = "Farm Manager",
 	variableVersion = 4,
 	classes = {},
 	worldName = GetWorldName(),
 	accountName = GetDisplayName(),
-	charName = GetUnitName("player")
+	charName = GetUnitName("player"),
+	lastNode = nil
 }
 
 function FarmManager.OnAddOnLoaded(_, addonName)
@@ -25,23 +26,41 @@ end
 function FarmManager.SetupSVs()
 	if not FarmManagerData then FarmManagerData = {} end
 	if not FarmManagerData[FarmManager.worldName] then FarmManagerData[FarmManager.worldName] = {} end
+	if not FarmManagerData[FarmManager.worldName][FarmManager.accountName] then FarmManagerData[FarmManager.worldName][
+			FarmManager.accountName] = {}
+	end
+	if not FarmManagerData[FarmManager.worldName][FarmManager.accountName][FarmManager.charName] then FarmManagerData[
+			FarmManager.worldName][FarmManager.accountName][FarmManager.charName] = {}
+	end
+
+	for k, v in pairs(FarmManagerData[FarmManager.worldName]) do
+		if type(k) == "number" then
+			local item = {
+				["itemLink"] = v.itemLink,
+				["amount"] = v.amount,
+				["zone"] = v.zone,
+				["timeStamp"] = v.timeStamp,
+				["nodeType"] = v.nodeType or "unknown"
+			}
+			table.insert(FarmManagerData[FarmManager.worldName][v.accountName][v.charName], item)
+			FarmManagerData[FarmManager.worldName][k] = nil
+
+		end
+	end
 end
 
 function FarmManager.SaveLoot(itemLink, amount, type, itemId)
-	local zone = GetZoneNameById(GetZoneId(GetUnitZoneIndex("player")))
+	local zone = GetZoneId(GetUnitZoneIndex("player"))
 	local timeStamp = GetTimeStamp()
 
 	local item = {
-		["itemId"] = itemId,
 		["itemLink"] = itemLink,
 		["amount"] = amount,
-		["itemType"] = type,
-		["accountName"] = FarmManager.accountName,
-		["charName"] = FarmManager.charName,
 		["zone"] = zone,
-		["timeStamp"] = timeStamp
+		["timeStamp"] = timeStamp,
+		["nodeType"] = zo_strformat("<<1>>", FarmManager.lastNode)
 	}
-	table.insert(FarmManagerData[FarmManager.worldName], item)
+	table.insert(FarmManagerData[FarmManager.worldName][FarmManager.accountName][FarmManager.charName], item)
 
 end
 
@@ -53,19 +72,26 @@ function FarmManager.Init()
 	--FmFarmer.Init()
 end
 
+function FarmManager.OnInteraction(eventCode, result, interactTargetName)
+	FarmManager.lastNode = interactTargetName
+	if FmNodeDetection.GetNodeId(interactTargetName) == 0 then d(interactTargetName .. " not known") end
+end
+
 function FarmManager.StartStop()
 	if not FmFarmer.running then
 		EVENT_MANAGER:RegisterForEvent(FarmManager.name, EVENT_LOOT_RECEIVED, FarmManager.OnLootReceived)
+		EVENT_MANAGER:RegisterForEvent(FarmManager.name, EVENT_CLIENT_INTERACT_RESULT, FarmManager.OnInteraction)
 		FmUI.Start()
 		FmFarmer.Start()
-		d("Farm Manager running")
+		CHAT_SYSTEM:AddMessage("Farm Manager running")
 
 
 	else
 		EVENT_MANAGER:UnregisterForEvent(FarmManager.name, EVENT_LOOT_RECEIVED)
+		EVENT_MANAGER:UnregisterForEvent(FarmManager.name, EVENT_CLIENT_INTERACT_RESULT)
 		FmUI.Stop()
 		FmFarmer.Stop()
-		d("Farm Manager stopped")
+		CHAT_SYSTEM:AddMessage("Farm Manager stopped")
 	end
 end
 
@@ -85,6 +111,7 @@ end
 function FarmManager.OnLootReceived(_, _, itemLink, amount, _, lootType, isSelf, _, _, itemId)
 	if not isSelf then return end
 	if not FarmManager.ShouldInclude(itemLink) then return end
+	if lootType ~= LOOT_TYPE_ITEM then return end
 	--Lets FmFarmer add the item
 	FmFarmer.Farm(itemLink, amount)
 	FarmManager.SaveLoot(itemLink, amount, lootType, itemId)
@@ -101,8 +128,7 @@ ZO_CreateStringId("SI_BINDING_NAME_FARM_MANAGER_START_STOP_TOGGLE", "Start/Stop 
 ZO_CreateStringId("SI_BINDING_NAME_FARM_MANAGER_RESET", "Resets Farming")
 
 SLASH_COMMANDS["/farm"] = function(args)
-	if args == "start" then FarmManager.StartStop() return end
-	if args == "stop" then FarmManager.StartStop() return end
+	if args == "startstop" then FarmManager.StartStop() return end
 	if args == "reset" then FarmManager.Reset() return end
 	FmUI.WindowToggle()
 end

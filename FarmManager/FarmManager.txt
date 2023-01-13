@@ -1,7 +1,7 @@
 ## Title: Farm Manager
 ## Description:  Tracks items farmed and value
-## Author: dirtdart (@dirtdart) /Updated by @Complicative
-## Version: 1.2.1
+## Author: Original Addon by dirtdart (@dirtdart) /Updated by @Complicative and @JN_Slevin
+## Version: 1.3.1
 ## APIVersion: 101036
 ## SavedVariables: FarmManagerSavedVars FarmManagerData
 ##
@@ -19,5 +19,6 @@ modules\FmUI.lua
 modules\FmFarmer.lua
 modules\FmSettings.lua
 modules\FmStats.lua
+modules\FmNodeDetection.lua
 
 bindings.xml
